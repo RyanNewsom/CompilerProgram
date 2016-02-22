@@ -10,8 +10,13 @@ import static org.junit.Assert.*;
  * Created by Ryan on 1/31/2016.
  */
 public class FileReaderTest {
+    //Comments
     File test1_a = new File("testComments1.txt");
     File test1_e = new File("testComments1-expected.txt");
+
+    //Labels
+    File test2_a = new File("testLabels1.txt");
+    File test2_e = new File("testLabels1-expected.txt");
 
     FileReader fileReader = new FileReader();
     StringBuilder mActual;
@@ -20,12 +25,19 @@ public class FileReaderTest {
     @Before
     public void setUp() throws Exception {
         mExpected = new StringBuilder();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    private void setUpFiles(File expectedFile){
         InputStream inputStream = null;
         BufferedReader br = null;
         String currentLine;
-
         try {
-            inputStream = new FileInputStream(test1_e);
+            inputStream = new FileInputStream(expectedFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -39,21 +51,27 @@ public class FileReaderTest {
         }
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void testCommentsParse(){
         String actual;
         String expected;
 
+        setUpFiles(test1_e);
         mActual = fileReader.parseFile(test1_a);
         expected = mExpected.toString();
         actual = mActual.toString();
 
         assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testLabels(){
+//        String actual;
+//        String expected;
+//
+//        mActual = fileReader.parseFile(test2_a);
+//        expected = mExpected.toString();
+//        actual = mActual.toString();
     }
 
 }

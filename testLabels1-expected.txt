@@ -1,0 +1,3 @@
+MOVE s,d
+MOVEI v,d
+ADD s1,s2,d

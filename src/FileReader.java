@@ -47,6 +47,8 @@ public class FileReader {
             addToLogFile(onlyCodeString);
         }
 
+        checkLabel();
+
         //check for labels
 
 
