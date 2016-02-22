@@ -1,3 +1,5 @@
+import com.sun.media.sound.InvalidFormatException;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,16 @@ public class OperandCheckerUtility {
 
         //Length is <= 5 so, now we check for only letters.
         return in.matches("[a-zA-Z]+");
+    }
+
+    public static boolean isImmediateValue(String in){
+        try{
+
+            Integer.parseUnsignedInt(in);
+            return true;
+        } catch(NumberFormatException nfe){
+            return false;
+        }
     }
 
 

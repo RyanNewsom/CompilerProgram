@@ -89,7 +89,42 @@ public class OperandCheckerUtilityTest {
 
         actual = OperandCheckerUtility.isSourceOrDestination("HELLOO");
         assertEquals(false, actual);
+    }
 
+    @Test
+    public void testIsImmediateValue() throws Exception{
+        boolean expectedTrue = true;
+        boolean expectedFalse = false;
+        boolean actual;
 
+        actual = OperandCheckerUtility.isImmediateValue("234234");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("134");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("1");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("324");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("0");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("99");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("29384");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("11");
+        assertEquals(expectedTrue, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("-1");
+        assertEquals(expectedFalse, actual);
+
+        actual = OperandCheckerUtility.isImmediateValue("-0");
+        assertEquals(expectedFalse, actual);
     }
 }

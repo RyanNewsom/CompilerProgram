@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Ryan on 2/22/2016.
@@ -36,6 +37,11 @@ public class Instruction {
     }
 
     public void areOperandsValid(String operands){
+        Scanner operandScanner = new Scanner(operands);
+        String first;
+        String second;
+        String third;
+
         if(mType == InstructionType.ADD || mType == InstructionType.SUB || mType == InstructionType.DIV ||
                 mType == InstructionType.MUL){
 
