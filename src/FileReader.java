@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by Ryan on 1/24/2016.
@@ -7,6 +9,7 @@ import java.io.*;
 public class FileReader {
     private static final String TAG = "FileReader";
     private StringBuilder mStringBuilder = new StringBuilder();
+    private ArrayList mFoundLabels = new ArrayList();
 
     //Take in file.
     //1)Check for blank lines & comments, if found then remove, add remaining to line to be scanned
@@ -42,12 +45,27 @@ public class FileReader {
      */
     private void checkCurrentLine(String currentLine){
         String onlyCodeString = null;
+        String label;
+        String instructionString;
+        String operands;
+        Instruction instruction;
+        Scanner scanner;
         if(!checkForBlankLines(currentLine)) {
             onlyCodeString = removeComments(currentLine);
             addToLogFile(onlyCodeString);
         }
 
-        checkLabel();
+        scanner = new Scanner(currentLine);
+
+        label = scanner.next();
+        if(checkLabel(label)){
+            instructionString = scanner.next();
+        } else{
+            instructionString = label;
+        }
+
+        instruction = isValidInstruction(instructionString);
+
 
         //check for labels
 
@@ -76,8 +94,14 @@ public class FileReader {
         return codeOnlyString;
     }
 
-    private void checkLabel(){
-
+    private boolean checkLabel(String potentialLabel){
+        if(potentialLabel.contains(":")){
+            //It is a label, else it is not
+            mFoundLabels.add(potentialLabel);
+            return true;
+        } else{
+            return false;
+        }
     }
 
     private void checkOperands(){
@@ -90,5 +114,9 @@ public class FileReader {
         if(trimmed != null && !trimmed.isEmpty()) {
             mStringBuilder.append(trimmed + "\n");
         }
+    }
+
+    private Instruction isValidInstruction(String instruction){
+        return new Instruction(instruction);
     }
 }
