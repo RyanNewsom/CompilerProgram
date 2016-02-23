@@ -10,6 +10,7 @@ public class FileReader {
     private static final String TAG = "FileReader";
     private StringBuilder mStringBuilder = new StringBuilder();
     private ArrayList mFoundLabels = new ArrayList();
+    private int lineNumber = 0;
 
     //Take in file.
     //1)Check for blank lines & comments, if found then remove, add remaining to line to be scanned
@@ -45,19 +46,23 @@ public class FileReader {
      */
     private void checkCurrentLine(String currentLine){
         String onlyCodeString = null;
-        String label;
+        String label = null;
         String instructionString;
-        String operands;
+        String operands = "";
         Instruction instruction;
         Scanner scanner;
+
+
         if(!checkForBlankLines(currentLine)) {
             onlyCodeString = removeComments(currentLine);
             addToLogFile(onlyCodeString);
+            scanner = new Scanner(currentLine);
+            label = scanner.next();
+        } else{
+            return;
         }
 
-        scanner = new Scanner(currentLine);
-
-        label = scanner.next();
+        //[TODO] Add these labels to an arraylist and check to make sure they all match up
         if(checkLabel(label)){
             instructionString = scanner.next();
         } else{
@@ -66,11 +71,27 @@ public class FileReader {
 
         instruction = isValidInstruction(instructionString);
 
-
+        while(scanner.hasNext()){
+            operands += scanner.next();
+        }
         //check for labels
+        if(instruction == null){
+            Error instructionError = new Error(ErrorType.INVALID_INSTRUCTION, instructionString);
+            logError(instructionError);
+            //Was not a valid instruction, so log it
+        } else{
+            if(instruction.areOperandsValid(operands)){
+                //was a good line of code, time to move onto the next one
+            } else{
+                //[TODO] Log an error for invalid operands
+            }
+        }
+
 
 
     }
+
+
 
     private boolean checkForBlankLines(String currentLine){
         if(currentLine == null ) {
@@ -94,6 +115,10 @@ public class FileReader {
         return codeOnlyString;
     }
 
+    private Instruction isValidInstruction(String instruction){
+        return new Instruction(instruction);
+    }
+
     private boolean checkLabel(String potentialLabel){
         if(potentialLabel.contains(":")){
             //It is a label, else it is not
@@ -104,19 +129,16 @@ public class FileReader {
         }
     }
 
-    private void checkOperands(){
-
-    }
-
     private void addToLogFile(String toAdd){
         String trimmed = toAdd.trim();
 
         if(trimmed != null && !trimmed.isEmpty()) {
-            mStringBuilder.append(trimmed + "\n");
+            mStringBuilder.append(""+ lineNumber + ".  " + trimmed + "\n");
         }
     }
 
-    private Instruction isValidInstruction(String instruction){
-        return new Instruction(instruction);
+    private void logError(Error error){
+        mStringBuilder.append("**error:" + error.toString() + "\n");
     }
+
 }

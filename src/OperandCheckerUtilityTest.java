@@ -8,17 +8,6 @@ import static org.junit.Assert.*;
  * Created by Ryan on 2/22/2016.
  */
 public class OperandCheckerUtilityTest {
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void testRegisters() throws Exception {
         boolean actual;

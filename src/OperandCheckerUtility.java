@@ -32,12 +32,15 @@ public class OperandCheckerUtility {
 
     public static boolean isImmediateValue(String in){
         try{
-
             Integer.parseUnsignedInt(in);
             return true;
         } catch(NumberFormatException nfe){
             return false;
         }
+    }
+
+    public static boolean isLabel(String in){
+        return in.matches("[a-zA-Z]+");
     }
 
 
