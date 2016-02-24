@@ -6,7 +6,6 @@ import java.util.List;
  */
 public class OperandCheckerUtility {
     private static List<String> mPossibleRegisters = Arrays.asList("R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7");
-    private static String genericErrorMessage = ": Operand is ill formed";
     private OperandCheckerUtility() {
         //Utility class
     }
@@ -21,14 +20,14 @@ public class OperandCheckerUtility {
 
         //Not a register, is it a memory location? Must be letters only, max length of 5.
         if(in.length() > 5){
-            return new Error(ErrorType.ILL_FORMED_OPERAND, in + genericErrorMessage);
+            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand is too long");
         }
 
         //Length is <= 5 so, now we check for only letters.
         if(in.matches("[a-zA-Z]+")){
             return null;
         }
-        return new Error(ErrorType.ILL_FORMED_OPERAND, in + genericErrorMessage);
+        return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand can only be letters A-Z");
     }
 
     public static Error isImmediateValue(String in){
@@ -37,19 +36,21 @@ public class OperandCheckerUtility {
             if(parsed >= 0) {
                 return null;
             } else {
-                return new Error(ErrorType.ILL_FORMED_OPERAND, in + ": not a valid Octet unsigned number");
+                return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Negative numbers are not allowed");
             }
         } catch(NumberFormatException nfe){
-            return new Error(ErrorType.ILL_FORMED_OPERAND, in + ": not a valid Octet unsigned number");
+            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- not a valid Octet unsigned number");
         }
     }
 
     public static Error isLabel(String in){
+        if(in.length() > 5){
+            return new Error(ErrorType.ILL_FORMED_LABEL, in + "- Not a valid label type, length can not be > 5");
+        }
         if(in.matches("[a-zA-Z]+")){
             return null;
         }
-        else{
-            return new Error(ErrorType.ILL_FORMED_LABEL, in + ": Not a valid label type");
+        else{return new Error(ErrorType.ILL_FORMED_LABEL, in + "- Not a valid label type can only contain letters A-Z");
         }
     }
 
