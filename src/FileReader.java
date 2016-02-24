@@ -114,7 +114,7 @@ public class FileReader {
     }
 
     private boolean checkLabel(String potentialLabel){
-        if(potentialLabel.contains(":")){
+        if(potentialLabel.contains(":") && potentialLabel.length() <= 5 && potentialLabel.matches("[a-zA-Z]+")){
             //It is a label, else it is not
             mFoundLabels.add(potentialLabel);
             return true;

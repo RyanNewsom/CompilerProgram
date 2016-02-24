@@ -64,14 +64,5 @@ public class FileReaderTest {
         assertEquals(actual, expected);
     }
 
-    @Test
-    public void testLabels(){
-//        String actual;
-//        String expected;
-//
-//        mActual = fileReader.parseFile(test2_a);
-//        expected = mExpected.toString();
-//        actual = mActual.toString();
-    }
 
 }
