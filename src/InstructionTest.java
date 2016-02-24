@@ -14,7 +14,28 @@ public class InstructionTest {
 
     @Test
     public void testAreOperandsValid() throws Exception {
-        Instruction instruction = new Instruction("ADD");
-        instruction.areOperandsValid("r1,r2, r3");
+        Error error;
+        Instruction instruction;
+
+        instruction = new Instruction("ADD");
+        error = instruction.areOperandsValid("r1,r2, r3");
+        assertNull(error);
+
+        instruction = new Instruction("ADD");
+        error = instruction.areOperandsValid("r1,   r2,r3");
+        assertNull(error);
+
+        instruction = new Instruction("ADD");
+        error = instruction.areOperandsValid("r1,  r2, r3");
+        assertNull(error);
+
+        instruction = new Instruction("ADD");
+        error = instruction.areOperandsValid("r6,r2, r3");
+        assertNull(error);
+
+        instruction = new Instruction("ADD");
+        error = instruction.areOperandsValid("r1,r2 , r3");
+        assertNull(error);
+
     }
 }

@@ -47,6 +47,7 @@ public class Instruction {
         //Populates all the operands
         while(operandScanner.hasNext()){
             String next = operandScanner.next();
+            next = next.trim();
             operandsList.add(next);
         }
 
