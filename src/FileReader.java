@@ -127,7 +127,7 @@ public class FileReader {
         String trimmed = toAdd.trim();
 
         if(trimmed != null && !trimmed.isEmpty()) {
-            mStringBuilder.append(""+ lineNumber + ".  " + trimmed + "\n");
+            mStringBuilder.append(""+ ++lineNumber + ".  " + trimmed + "\n");
         }
     }
 

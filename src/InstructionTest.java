@@ -108,7 +108,7 @@ public class InstructionTest {
         instruction = new Instruction("DEC");
         error = instruction.areOperandsValid("");
         assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getmErrorType());
-        
+
         //BEQ,BLT,BGT
         instruction = new Instruction("BEQ");
         error = instruction.areOperandsValid("R1, R2, CONT");
