@@ -41,6 +41,7 @@ public class Instruction {
     public Error areOperandsValid(String operands){
         Scanner operandScanner = new Scanner(operands);
         List<String> operandsList = new ArrayList<>();
+        Error error;
 
         //Populates all the operands
         while(operandScanner.hasNext()){
@@ -58,11 +59,10 @@ public class Instruction {
             }
 
             //Check each operand
-            if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(0))){
-                if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(1))){
-                    if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(2))){
-                        return null;
-                    }
+            for(int i = 0; i < operandsList.size(); i++){
+                error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(i));
+                if(error != null){
+                    return error;
                 }
             }
 
@@ -72,9 +72,11 @@ public class Instruction {
             if(operandAmountError != null){
                 return operandAmountError;
             }
-            if(OperandCheckerUtility.isLabel(operandsList.get(0))){
-                return null;
+            error = OperandCheckerUtility.isLabel(operandsList.get(0));
+            if(error != null){
+                return error;
             }
+
         } else if(mType == InstructionType.BEQ || mType == InstructionType.BGT || mType == InstructionType.BLT ){
             mExpectedOperandAmount = 3;
             Error operandAmountError = checkOperandAmount(mExpectedOperandAmount, operandsList.size());

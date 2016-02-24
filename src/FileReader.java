@@ -80,15 +80,11 @@ public class FileReader {
             logError(instructionError);
             //Was not a valid instruction, so log it
         } else{
-            if(instruction.areOperandsValid(operands)){
-                //was a good line of code, time to move onto the next one
-            } else{
-                //[TODO] Log an error for invalid operands
+            Error error = instruction.areOperandsValid(operands);
+            if(error != null){
+                logError(error);
             }
         }
-
-
-
     }
 
 
