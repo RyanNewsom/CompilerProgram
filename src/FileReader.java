@@ -52,7 +52,6 @@ public class FileReader {
         Instruction instruction;
         Scanner scanner;
 
-
         if(!checkForBlankLines(currentLine)) {
             onlyCodeString = removeComments(currentLine);
             addToLogFile(onlyCodeString);
@@ -62,7 +61,6 @@ public class FileReader {
             return;
         }
 
-        //[TODO] Add these labels to an arraylist and check to make sure they all match up
         if(checkLabel(label)){
             instructionString = scanner.next();
         } else{

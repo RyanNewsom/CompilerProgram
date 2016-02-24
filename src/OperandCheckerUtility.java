@@ -33,8 +33,13 @@ public class OperandCheckerUtility {
 
     public static Error isImmediateValue(String in){
         try{
-            Integer.parseUnsignedInt(in);
-            return null;
+
+            int parsed = Integer.parseInt(in);
+            if(parsed > 0) {
+                return null;
+            } else {
+                return new Error(ErrorType.ILL_FORMED_OPERAND, in + ": not a valid Octet unsigned number");
+            }
         } catch(NumberFormatException nfe){
             return new Error(ErrorType.ILL_FORMED_OPERAND, in + ": not a valid Octet unsigned number");
         }

@@ -83,47 +83,69 @@ public class Instruction {
             if(operandAmountError!= null){
                 return operandAmountError;
             }
-            if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(0))){
-                if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(1))){
-                    if(OperandCheckerUtility.isLabel(operandsList.get(2))){
-                        return null;
-                    }
-                }
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(0));
+            if(error != null){
+                return error;
             }
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(1));
+            if(error != null){
+                return error;
+            }
+            error = OperandCheckerUtility.isLabel(operandsList.get(2));
+            if(error != null){
+                return error;
+            }
+
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(1));
+            if(error != null){
+                return error;
+            }
+            error = OperandCheckerUtility.isLabel(operandsList.get(2));
+            if(error != null){
+                return error;
+            }
+
         } else if(mType == InstructionType.BR){
             mExpectedOperandAmount = 1;
             Error operandAmountError = checkOperandAmount(mExpectedOperandAmount, operandsList.size());
             if(operandAmountError!= null){
                 return operandAmountError;
             }
-            if(OperandCheckerUtility.isLabel(operandsList.get(0))){
-                return null;
+            error = OperandCheckerUtility.isLabel(operandsList.get(0));
+            if(error != null){
+                return error;
             }
+
         } else if(mType == InstructionType.MOVE){
             mExpectedOperandAmount = 2;
             Error operandAmountError = checkOperandAmount(mExpectedOperandAmount, operandsList.size());
             if(operandAmountError!= null){
                 return operandAmountError;
             }
-            if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(0))) {
-                if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(1))){
-                    return null;
-                }
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(0));
+            if(error != null){
+                return error;
+            }
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(1));
+            if(error != null){
+                return error;
             }
 
-            } else if(mType == InstructionType.MOVEI){
+        } else if(mType == InstructionType.MOVEI){
             mExpectedOperandAmount = 2;
             Error operandAmountError = checkOperandAmount(mExpectedOperandAmount, operandsList.size());
             if(operandAmountError!= null){
                 return operandAmountError;
             }
-            if(OperandCheckerUtility.isImmediateValue(operandsList.get(0))){
-                if(OperandCheckerUtility.isSourceOrDestination(operandsList.get(1))){
-                    return null;
-                }
+            error = OperandCheckerUtility.isImmediateValue(operandsList.get(0));
+            if(error != null){
+                return error;
+            }
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(1));
+            if(error != null){
+                return error;
             }
         }
-
         return null;
     }
 
