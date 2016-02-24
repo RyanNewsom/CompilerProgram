@@ -42,6 +42,7 @@ public class Instruction {
         Scanner operandScanner = new Scanner(operands);
         List<String> operandsList = new ArrayList<>();
         Error error;
+        operandScanner.useDelimiter(",");
 
         //Populates all the operands
         while(operandScanner.hasNext()){

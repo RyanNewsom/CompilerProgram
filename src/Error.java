@@ -9,6 +9,10 @@ public class Error {
     }
 
     public String toString(){
-        return null;
+        return mErrorType.toString();
+    }
+
+    public ErrorType getmErrorType() {
+        return mErrorType;
     }
 }
