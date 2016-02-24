@@ -28,6 +28,7 @@ public class Instruction {
                 mType = type;
             }
         }
+
     }
 
     /**

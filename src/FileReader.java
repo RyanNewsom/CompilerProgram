@@ -47,7 +47,7 @@ public class FileReader {
     private void checkCurrentLine(String currentLine){
         String onlyCodeString = null;
         String label = null;
-        String instructionString;
+        String instructionString = null;
         String operands = "";
         Instruction instruction;
         Scanner scanner;
@@ -60,10 +60,15 @@ public class FileReader {
         } else{
             return;
         }
-
-        if(checkLabel(label)){
-            instructionString = scanner.next();
-        } else{
+        if(label.contains(":")) {
+            Error error = checkLabel(label);
+            if (error == null) {
+                instructionString = scanner.next();
+            } else{
+                logError(error);
+                return;
+            }
+        }else{
             instructionString = label;
         }
 
@@ -73,7 +78,7 @@ public class FileReader {
             operands += scanner.next();
         }
         //check for labels
-        if(instruction == null){
+        if(instruction.getType() == null){
             Error instructionError = new Error(ErrorType.INVALID_INSTRUCTION, instructionString);
             logError(instructionError);
             //Was not a valid instruction, so log it
@@ -113,22 +118,23 @@ public class FileReader {
         return new Instruction(instruction);
     }
 
-    private boolean checkLabel(String potentialLabel){
-        if(potentialLabel.contains(":") && potentialLabel.length() <= 5 && potentialLabel.matches("[a-zA-Z]+")){
-            //It is a label, else it is not
-            mFoundLabels.add(potentialLabel);
-            return true;
-        } else{
-            return false;
+    private Error checkLabel(String potentialLabel){
+        //It is a label, else it is not
+        if(potentialLabel.endsWith(":")) {
+            potentialLabel = potentialLabel.substring(0, potentialLabel.length() - 1);
+            if (potentialLabel.length() <= 5 && potentialLabel.matches("[a-zA-Z]+")) {
+                mFoundLabels.add(potentialLabel);
+                return null;
+            } else {
+                return new Error(ErrorType.ILL_FORMED_LABEL, "");
+            }
+        }else {
+            return new Error(ErrorType.ILL_FORMED_LABEL, "");
         }
     }
 
     private void addToLogFile(String toAdd){
-        String trimmed = toAdd.trim();
-
-        if(trimmed != null && !trimmed.isEmpty()) {
-            mStringBuilder.append(""+ ++lineNumber + ".  " + trimmed + "\n");
-        }
+        mStringBuilder.append(""+ ++lineNumber + ".  " + toAdd + "\n");
     }
 
     private void logError(Error error){
