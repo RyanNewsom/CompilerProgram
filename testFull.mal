@@ -5,7 +5,7 @@
         MOVE    RT,
         BLTE     R1, FORTY, REG
         BEQ     R1, FORTY, REG:
-        MUL     FORTY, R2, R0
+        MUL     FORTY, R2, R0, R5
         DIV     R2, TWO, R3
         ADD     R2, R3, R3
         SUB     R1, FORTY, R5
