@@ -167,9 +167,9 @@ public class Instruction {
         if(expected == actual){
             return null;
         } else if(actual > expected){
-            return new Error(ErrorType.TOO_MANY_OPERANDS, "");
+            return new Error(ErrorType.TOO_MANY_OPERANDS, "Too many operands, expected " + expected);
         } else if(actual < expected){
-            return new Error(ErrorType.TOO_FEW_OPERANDS, "");
+            return new Error(ErrorType.TOO_FEW_OPERANDS, "Too few operands, expected " + expected);
         }
         return null;
     }

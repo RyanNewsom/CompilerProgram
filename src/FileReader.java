@@ -138,7 +138,7 @@ public class FileReader {
     }
 
     private void logError(Error error){
-        mStringBuilder.append("    **error:" + error.toString() + "\n");
+        mStringBuilder.append("    **error:" + error.toDescriptiveString() + "\n");
         mAllErrorsFound.add(error);
     }
 }
