@@ -3,9 +3,11 @@
  */
 public class Error {
     private ErrorType mErrorType;
+    private String mAdditionalInfo;
 
     public Error(ErrorType errorType, String additionalInfo){
         mErrorType = errorType;
+        mAdditionalInfo = additionalInfo;
     }
 
     public String toString(){
@@ -14,5 +16,9 @@ public class Error {
 
     public ErrorType getmErrorType() {
         return mErrorType;
+    }
+
+    public String toDescriptiveString(){
+        return mErrorType.toString() + " " + mAdditionalInfo;
     }
 }
