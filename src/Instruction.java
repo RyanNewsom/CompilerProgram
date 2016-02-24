@@ -39,6 +39,11 @@ public class Instruction {
         return mType;
     }
 
+    /**
+     * Determines if operands are valid for the current instruction
+     * @param operands - the string containing the operands
+     * @return - null, no error, operands are valid. An error if they are not valid.
+     */
     public Error areOperandsValid(String operands){
         Scanner operandScanner = new Scanner(operands);
         List<String> operandsList = new ArrayList<>();

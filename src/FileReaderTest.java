@@ -57,7 +57,7 @@ public class FileReaderTest {
         String expected;
 
         setUpFiles(test1_e);
-        mActual = fileReader.parseFile(test1_a);
+        mActual = fileReader.parseFile(test1_a).getLogInfo();
         expected = mExpected.toString();
         actual = mActual.toString();
 

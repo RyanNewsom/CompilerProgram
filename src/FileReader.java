@@ -11,12 +11,12 @@ public class FileReader {
     private StringBuilder mStringBuilder = new StringBuilder();
     private ArrayList mFoundLabels = new ArrayList();
     private int lineNumber = 0;
-
+    private ArrayList<Error> mAllErrorsFound = new ArrayList<>();
     //Take in file.
     //1)Check for blank lines & comments, if found then remove, add remaining to line to be scanned
     //2)Scan line for label
 
-    public StringBuilder parseFile(File f){
+    public LogInfo parseFile(File f){
         InputStream inputStream = null;
         BufferedReader br = null;
         String currentLine;
@@ -36,7 +36,7 @@ public class FileReader {
         }
 
         //Read File Line By Line
-        return mStringBuilder;
+        return new LogInfo(mStringBuilder, mAllErrorsFound);
     }
 
     /**
@@ -138,7 +138,7 @@ public class FileReader {
     }
 
     private void logError(Error error){
-        mStringBuilder.append("**error:" + error.toString() + "\n");
+        mStringBuilder.append("    **error:" + error.toString() + "\n");
+        mAllErrorsFound.add(error);
     }
-
 }
