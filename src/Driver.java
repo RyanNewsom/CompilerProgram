@@ -58,7 +58,7 @@ public class Driver {
         Scanner in = new Scanner(System.in);
 
         System.out.println("Enter the MAL files name, so that it may be checked for compilation errors.");
-        fileName = in.next();
+        fileName = in.next() + ".mal";
         theFile = new File(fileName);
 
         return theFile;
