@@ -74,7 +74,7 @@ public class Instruction {
             if(operandAmountError != null){
                 return operandAmountError;
             }
-            error = OperandCheckerUtility.isLabel(operandsList.get(0));
+            error = OperandCheckerUtility.isSourceOrDestination(operandsList.get(0));
             if(error != null){
                 return error;
             }

@@ -80,11 +80,44 @@ public class InstructionTest {
         error = instruction.areOperandsValid("567,r2");
         assertNull(error);
 
-        //INC, DEC
+        instruction = new Instruction("MOVE");
+        error = instruction.areOperandsValid("r1,rd2");
+        assertEquals(ErrorType.ILL_FORMED_OPERAND, error.getmErrorType());
 
+        instruction = new Instruction("MOVE");
+        error = instruction.areOperandsValid("r1,r2,r3");
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+
+        //INC, DEC
+        instruction = new Instruction("INC");
+        error = instruction.areOperandsValid("x");
+        assertNull(error);
+
+        instruction = new Instruction("INC");
+        error = instruction.areOperandsValid("r5");
+        assertNull(error);
+
+        instruction = new Instruction("DEC");
+        error = instruction.areOperandsValid("r0");
+        assertNull(error);
+
+        instruction = new Instruction("DEC");
+        error = instruction.areOperandsValid("r0,r1");
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+
+        instruction = new Instruction("DEC");
+        error = instruction.areOperandsValid("");
+        assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getmErrorType());
+        
         //BEQ,BLT,BGT
+        instruction = new Instruction("BEQ");
+        error = instruction.areOperandsValid("R1, R2, CONT");
+        assertNull(error);
 
         //BR
+        instruction = new Instruction("BR");
+        error = instruction.areOperandsValid("LOOP");
+        assertNull(error);
 
         //END
     }
