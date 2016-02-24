@@ -20,14 +20,14 @@ public class OperandCheckerUtility {
 
         //Not a register, is it a memory location? Must be letters only, max length of 5.
         if(in.length() > 5){
-            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand is too long");
+            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand is too long, max length is 5 characters");
         }
 
         //Length is <= 5 so, now we check for only letters.
         if(in.matches("[a-zA-Z]+")){
             return null;
         }
-        return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand can only be letters A-Z");
+        return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Operand can only be memory locations(R0-R7 OR named location(A-Z))");
     }
 
     public static Error isImmediateValue(String in){
@@ -39,7 +39,7 @@ public class OperandCheckerUtility {
                 return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Negative numbers are not allowed");
             }
         } catch(NumberFormatException nfe){
-            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- not a valid Octet unsigned number");
+            return new Error(ErrorType.ILL_FORMED_OPERAND, in + "- Not a valid Octet unsigned number");
         }
     }
 

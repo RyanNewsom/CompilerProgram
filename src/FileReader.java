@@ -10,6 +10,7 @@ public class FileReader {
     private static final String TAG = "FileReader";
     private StringBuilder mStringBuilder = new StringBuilder();
     private ArrayList mFoundLabels = new ArrayList();
+    private ArrayList mBranchedToLabels = new ArrayList();
     private int lineNumber = 0;
     private ArrayList<Error> mAllErrorsFound = new ArrayList<>();
     //Take in file.
