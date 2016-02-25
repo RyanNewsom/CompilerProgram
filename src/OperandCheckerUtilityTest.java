@@ -1,5 +1,3 @@
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -37,7 +35,7 @@ public class OperandCheckerUtilityTest {
         assertNull(actual);
 
         actual = OperandCheckerUtility.isSourceOrDestination("R8");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, actual.getErrorType());
     }
 
     @Test
@@ -72,10 +70,10 @@ public class OperandCheckerUtilityTest {
         assertNotNull(actual);
 
         actual = OperandCheckerUtility.isSourceOrDestination("FUNCTION");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getErrorType());
 
         actual = OperandCheckerUtility.isSourceOrDestination("HELLOO");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getErrorType());
     }
 
     @Test
@@ -107,15 +105,15 @@ public class OperandCheckerUtilityTest {
         assertNull(actual);
 
         actual = OperandCheckerUtility.isImmediateValue("-1");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getErrorType());
 
         actual = OperandCheckerUtility.isImmediateValue("-575");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getErrorType());
 
         actual = OperandCheckerUtility.isImmediateValue("dgfd");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, actual.getErrorType());
 
         actual = OperandCheckerUtility.isImmediateValue("345g43");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, actual.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, actual.getErrorType());
     }
 }

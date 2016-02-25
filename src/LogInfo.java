@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 /**
- * Created by Ryan on 2/24/2016.
+ * Created by Ryan on 2/21/2016.
+ * Contains the log information needed to output information to a file
  */
 public class LogInfo {
     private StringBuilder mLogInfo;
@@ -16,6 +17,10 @@ public class LogInfo {
         return mLogInfo;
     }
 
+    /**
+     * All the errors the Syntax Checker found
+     * @return
+     */
     public ArrayList<Error> getErrors() {
         return mErrors;
     }

@@ -16,7 +16,7 @@ public class LabelMatcher {
                 alreadyContains = true;
             }
         }
-        if(!alreadyContains) {
+        if(!alreadyContains && !label.equalsIgnoreCase("END")) {
             mLabelsBranchedTo.add(label);
         }
     }
@@ -41,7 +41,7 @@ public class LabelMatcher {
             for(int j = 0; j < mLabelsBranchedTo.size(); j++){
                 //compare each possible label with each label that was branched to
                 String branched = mLabelsBranchedTo.get(j);
-                if(possible.equals(branched)){
+                if(possible.equalsIgnoreCase(branched)){
                     foundMatch = true;
                     break;
                 }
@@ -57,7 +57,7 @@ public class LabelMatcher {
             for(int j = 0; j < mPossibleLabels.size(); j++){
                 //compare each possible label with each label that was branched to
                 String possible = mPossibleLabels.get(j);
-                if(branched.equals(possible)){
+                if(branched.equalsIgnoreCase(possible)){
                     foundMatch = true;
                     break;
                 }

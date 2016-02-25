@@ -30,15 +30,15 @@ public class InstructionTest {
 
         instruction = new Instruction("DIV");
         error = instruction.areOperandsValid("r1,  r2,");
-        assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getErrorType());
 
         instruction = new Instruction("ADD");
         error = instruction.areOperandsValid("r1,  r2, r3, r4, r5, r6");
-        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getErrorType());
 
         instruction = new Instruction("SUB");
         error = instruction.areOperandsValid("r1, r3fgh, r4");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, error.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, error.getErrorType());
 
         instruction = new Instruction("ADDdD");
         error = instruction.areOperandsValid("r1,  r2, r3, r4");
@@ -46,7 +46,7 @@ public class InstructionTest {
 
         instruction = new Instruction("ADD");
         error = instruction.areOperandsValid("r1,  r2, r3, r4, r7");
-        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getErrorType());
 
         //MOVE
         instruction = new Instruction("MOVE");
@@ -63,11 +63,11 @@ public class InstructionTest {
 
         instruction = new Instruction("MOVE");
         error = instruction.areOperandsValid("r1,rd2");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, error.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, error.getErrorType());
 
         instruction = new Instruction("MOVE");
         error = instruction.areOperandsValid("r1,r2,r3");
-        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getErrorType());
 
         //MOVEI
         instruction = new Instruction("MOVEI");
@@ -76,11 +76,11 @@ public class InstructionTest {
 
         instruction = new Instruction("MOVE");
         error = instruction.areOperandsValid("r1,rd2");
-        assertEquals(ErrorType.ILL_FORMED_OPERAND, error.getmErrorType());
+        assertEquals(ErrorType.WRONG_OPERAND_TYPE, error.getErrorType());
 
         instruction = new Instruction("MOVE");
         error = instruction.areOperandsValid("r1,r2,r3");
-        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getErrorType());
 
         //INC, DEC
         instruction = new Instruction("INC");
@@ -97,11 +97,11 @@ public class InstructionTest {
 
         instruction = new Instruction("DEC");
         error = instruction.areOperandsValid("r0,r1");
-        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_MANY_OPERANDS, error.getErrorType());
 
         instruction = new Instruction("DEC");
         error = instruction.areOperandsValid("");
-        assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getmErrorType());
+        assertEquals(ErrorType.TOO_FEW_OPERANDS, error.getErrorType());
 
         //BEQ,BLT,BGT
         instruction = new Instruction("BEQ");

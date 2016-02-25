@@ -4,40 +4,46 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by Ryan on 1/24/2016.
- * The Driver for the MAL Syntax Checker program. Here file's will be opened, the files scanned, with the log files being
- * outputted after error checking.
+ * Created by Ryan on 1/24/2016.(Code re-use ftw)
+ * The Driver for the MAL Syntax Checker program. Here file's will be opened, the files scanned for sytax errors
+ * then outputting the error logs to a .log file
  */
 public class Driver {
-    private static StringBuilder logString;
     private static String mFileName;
     private static LogInfo mLogInfo;
 
-    //Loop through the possible files
-    //Open the current file
-    //Look for any items to be stripped
-    //Remove the items and output the new text to an output file
     public static void main(String [] args){
-        File file = loadFile();
-        readFile(file);
-        outputFiles();
+        File file = loadFile(); //ask user for file name
+        checkFileForSyntaxErrors(file); //Check
+        outputLogFile();
     }
 
+    private static File loadFile(){
+        File theFile;
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Enter the MAL files name, so that it may be checked for compilation errors.");
+        mFileName = in.next();
+
+        theFile = new File(mFileName  + ".mal");
+
+        return theFile;
+    }
 
     /**
      * Reads all the files and produces a string builder which will then be written to a new file
      */
-    private static void readFile(File file){
-        FileReader fileReader = new FileReader();
-        mLogInfo = fileReader.parseFile(file);
+    private static void checkFileForSyntaxErrors(File file){
+        SyntaxChecker syntaxChecker = new SyntaxChecker();
+        mLogInfo = syntaxChecker.parseFile(file);
     }
 
     /**
      * Outputs the new files with blank lines & comments removed
      */
-    private static void outputFiles() {
+    private static void outputLogFile() {
         BufferedWriter output = null;
-        logString = mLogInfo.getLogInfo();
+        StringBuilder logString = mLogInfo.getLogInfo();
 
         try {
             output = new BufferedWriter(new FileWriter(mFileName + ".log"));
@@ -54,69 +60,62 @@ public class Driver {
         }
     }
 
-    private static File loadFile(){
-        File theFile;
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Enter the MAL files name, so that it may be checked for compilation errors.");
-        mFileName = in.next();
-
-        theFile = new File(mFileName  + ".mal");
-
-        return theFile;
-    }
-
     private static String createLogFile(String log){
         String dateString;
         String filePass = "File had no errors, file is valid";
 
-        int ILL_FORMED_OPERAND = 0;
-        int ILL_FORMED_LABEL = 0;
-        int INVALID_INSTRUCTION = 0;
-        int TOO_MANY_OPERANDS = 0;
-        int TOO_FEW_OPERANDS = 0;
-        int WRONG_OPERAND_TYPE = 0;
-        int LABEL_NOT_USED = 0;
-        int LABEL_DOESNT_EXIST = 0;
+        int illFormedOperand = 0;
+        int illFormedLabel = 0;
+        int invalidInstruction = 0;
+        int tooManyOperands = 0;
+        int tooFewOperands = 0;
+        int wrong_operand_type = 0;
+        int labelNotUsed = 0;
+        int labelDoesntExist = 0;
 
         ArrayList<Error> mErrors = mLogInfo.getErrors();
         mErrors.addAll(LabelMatcher.getLabelErrors());
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         dateString = dateFormat.format(date);
+
+        //Count the number of each error type
         for(int i = 0; i < mErrors.size(); i++){
             Error error = mErrors.get(i);
-            if(error.getmErrorType() == ErrorType.ILL_FORMED_OPERAND){
-                ILL_FORMED_OPERAND++;
-            } else if(error.getmErrorType() == ErrorType.ILL_FORMED_LABEL){
-                ILL_FORMED_LABEL++;
-            }else if(error.getmErrorType() == ErrorType.INVALID_INSTRUCTION){
-                INVALID_INSTRUCTION++;
-            }else if(error.getmErrorType() == ErrorType.TOO_MANY_OPERANDS){
-                TOO_MANY_OPERANDS++;
-            }else if(error.getmErrorType() == ErrorType.TOO_FEW_OPERANDS){
-                TOO_FEW_OPERANDS++;
-            }else if(error.getmErrorType() == ErrorType.WRONG_OPERAND_TYPE){
-                WRONG_OPERAND_TYPE++;
-            }else if(error.getmErrorType() == ErrorType.LABEL_NOT_USED){
-                LABEL_NOT_USED++;
-            }else if(error.getmErrorType() == ErrorType.LABEL_DOESNT_EXIST){
-                LABEL_DOESNT_EXIST++;
+            if(error.getErrorType() == ErrorType.ILL_FORMED_OPERAND){
+                illFormedOperand++;
+            } else if(error.getErrorType() == ErrorType.ILL_FORMED_LABEL){
+                illFormedLabel++;
+            }else if(error.getErrorType() == ErrorType.INVALID_INSTRUCTION){
+                invalidInstruction++;
+            }else if(error.getErrorType() == ErrorType.TOO_MANY_OPERANDS){
+                tooManyOperands++;
+            }else if(error.getErrorType() == ErrorType.TOO_FEW_OPERANDS){
+                tooFewOperands++;
+            }else if(error.getErrorType() == ErrorType.WRONG_OPERAND_TYPE){
+                wrong_operand_type++;
+            }else if(error.getErrorType() == ErrorType.LABEL_NOT_USED){
+                labelNotUsed++;
+            }else if(error.getErrorType() == ErrorType.LABEL_DOESNT_EXIST){
+                labelDoesntExist++;
             }
         }
+
         if(mErrors.size() > 0){
             filePass = "Error's found, file is not valid";
         }
-        String heading = "Log File for Mal Program: " + mFileName +"\n Generated by: Ryan Newsom \n CS3210 \n Date: " + dateString
-                + "\n \n----------------------------------- \n";
-        String suffix = "Total errors: " + mErrors.size() + "\n ";
-        String errorString = getErrorAmountString(ErrorType.ILL_FORMED_OPERAND, ILL_FORMED_OPERAND) + getErrorAmountString(ErrorType.ILL_FORMED_LABEL, ILL_FORMED_LABEL)
-                + getErrorAmountString(ErrorType.INVALID_INSTRUCTION, INVALID_INSTRUCTION) + getErrorAmountString(ErrorType.TOO_MANY_OPERANDS, TOO_MANY_OPERANDS)
-                + getErrorAmountString(ErrorType.TOO_FEW_OPERANDS, TOO_FEW_OPERANDS) + getErrorAmountString(ErrorType.WRONG_OPERAND_TYPE, WRONG_OPERAND_TYPE)
-                + getErrorAmountString(ErrorType.LABEL_NOT_USED, LABEL_NOT_USED) + getErrorAmountString(ErrorType.LABEL_DOESNT_EXIST, LABEL_DOESNT_EXIST);
-        return heading + log + "\n" + suffix + errorString + "\n" + filePass;
+
+        String heading = "Log File for Mal Program: " + mFileName +"\n Generated by: Ryan Newsom \n CS3210 \n Date: " + dateString;
+        String suffix = "Total errors: " + mErrors.size();
+        String errorString = getErrorAmountString(ErrorType.ILL_FORMED_OPERAND, illFormedOperand) + getErrorAmountString(ErrorType.ILL_FORMED_LABEL, illFormedLabel)
+                + getErrorAmountString(ErrorType.INVALID_INSTRUCTION, invalidInstruction) + getErrorAmountString(ErrorType.TOO_MANY_OPERANDS, tooManyOperands)
+                + getErrorAmountString(ErrorType.TOO_FEW_OPERANDS, tooFewOperands) + getErrorAmountString(ErrorType.WRONG_OPERAND_TYPE, wrong_operand_type)
+                + getErrorAmountString(ErrorType.LABEL_NOT_USED, labelNotUsed) + getErrorAmountString(ErrorType.LABEL_DOESNT_EXIST, labelDoesntExist);
+
+        return heading + "\n \n-----------------------------------\n" + log + "\n" + suffix + "\n" + errorString + "\n" + filePass;
     }
 
+    //Could be moved to error class
     private static String getErrorAmountString(ErrorType type, int amount){
         String errorString = "";
 
@@ -127,5 +126,4 @@ public class Driver {
 
         return "";
     }
-
 }

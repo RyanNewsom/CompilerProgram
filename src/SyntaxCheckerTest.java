@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Ryan on 1/31/2016.
  */
-public class FileReaderTest {
+public class SyntaxCheckerTest {
     //Comments
     File test1_a = new File("testComments1.txt");
     File test1_e = new File("testComments1-expected.txt");
@@ -18,7 +18,7 @@ public class FileReaderTest {
     File test2_a = new File("testLabels1.txt");
     File test2_e = new File("testLabels1-expected.txt");
 
-    FileReader fileReader = new FileReader();
+    SyntaxChecker syntaxChecker = new SyntaxChecker();
     StringBuilder mActual;
     StringBuilder mExpected;
 
@@ -57,7 +57,7 @@ public class FileReaderTest {
         String expected;
 
         setUpFiles(test1_e);
-        mActual = fileReader.parseFile(test1_a).getLogInfo();
+        mActual = syntaxChecker.parseFile(test1_a).getLogInfo();
         expected = mExpected.toString();
         actual = mActual.toString();
 

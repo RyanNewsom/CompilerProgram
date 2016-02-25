@@ -4,18 +4,20 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Created by Ryan on 1/24/2016.
+ * Created by Ryan on 1/21/2016.
  * Parses each file
  */
-public class FileReader {
-    private static final String TAG = "FileReader";
+public class SyntaxChecker {
+    private static final String TAG = "SyntaxChecker";
     private StringBuilder mStringBuilder = new StringBuilder();
     private int lineNumber = 0;
     private ArrayList<Error> mAllErrorsFound = new ArrayList<>();
-    //Take in file.
-    //1)Check for blank lines & comments, if found then remove, add remaining to line to be scanned
-    //2)Scan line for label
 
+    /**
+     * Will parse a file looking for errors,then return the necessary information to generate a log
+     * @param f
+     * @return
+     */
     public LogInfo parseFile(File f){
         InputStream inputStream = null;
         BufferedReader br = null;
@@ -29,9 +31,8 @@ public class FileReader {
         br = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while ((currentLine = br.readLine()) != null) {
-                if(!currentLine.contains("END")){
-                    checkCurrentLine(currentLine);
-                }
+                checkCurrentLine(currentLine);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,9 +43,8 @@ public class FileReader {
     }
 
     /**
-     * Checks the current line, if no blanks, removes comments, then adds it to the log file. After this, checks for label
-     *
-     * @return
+     * Checks the current line, if no blanks, removes comments, then adds it to the log file. After this, checks for
+     * valid label, instruction, and operands. If errors are found, adds them to the error list.
      */
     private void checkCurrentLine(String currentLine){
         String onlyCodeString = null;
@@ -75,10 +75,17 @@ public class FileReader {
                     logError(error);
                     return;
                 }
-            } else {
+            } else if(label.contains("END")){
+
+            }
+            else {
                 instructionString = label;
             }
 
+            if(instructionString == null){
+                //is a label on a line by itself
+                return;
+            }
             instruction = isValidInstruction(instructionString);
 
             while (scanner.hasNext()) {
@@ -148,7 +155,7 @@ public class FileReader {
     }
 
     private void logError(Error error){
-        mStringBuilder.append("    **error:" + error.toDescriptiveString() + "\n");
+        mStringBuilder.append("    **error:" + error.toAdditionalInfoString() + "\n");
         mAllErrorsFound.add(error);
     }
 }

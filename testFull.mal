@@ -11,7 +11,7 @@
         SUB     R1, FORTY, R5
         MULD     R5, R3, R6
         ADD     R0, R6, R0
-        BR      DECT
+        BR      DECTA
 REGDSA:    MUL     R1, R2, R0
 DECT:   DIV     R0, FIVE, R6
         SUB     R0, R6, R0
