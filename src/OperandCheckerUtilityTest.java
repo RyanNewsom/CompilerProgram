@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by Ryan on 2/22/2016.
+ * Checks operands to determine if they are valid
  */
 public class OperandCheckerUtilityTest {
     @Test

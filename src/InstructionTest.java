@@ -3,7 +3,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by Ryan on 2/23/2016.
+ * Created by Ryan on 2/21/2016.
+ * Checks instructions to determine if they are valid
  */
 public class InstructionTest {
     @Test
