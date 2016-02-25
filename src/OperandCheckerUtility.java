@@ -48,6 +48,8 @@ public class OperandCheckerUtility {
             return new Error(ErrorType.ILL_FORMED_LABEL, in + "- Not a valid label type, length can not be > 5");
         }
         if(in.matches("[a-zA-Z]+")){
+            LabelMatcher.addLabelThatWasBranchedTo(in);
+
             return null;
         }
         else{return new Error(ErrorType.ILL_FORMED_LABEL, in + "- Not a valid label type can only contain letters A-Z");

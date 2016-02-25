@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -9,8 +10,6 @@ import java.util.Scanner;
 public class FileReader {
     private static final String TAG = "FileReader";
     private StringBuilder mStringBuilder = new StringBuilder();
-    private ArrayList mFoundLabels = new ArrayList();
-    private ArrayList mBranchedToLabels = new ArrayList();
     private int lineNumber = 0;
     private ArrayList<Error> mAllErrorsFound = new ArrayList<>();
     //Take in file.
@@ -30,7 +29,9 @@ public class FileReader {
         br = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while ((currentLine = br.readLine()) != null) {
-                checkCurrentLine(currentLine);
+                if(!currentLine.contains("END")){
+                    checkCurrentLine(currentLine);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,41 +54,49 @@ public class FileReader {
         Instruction instruction;
         Scanner scanner;
 
-        if(!checkForBlankLines(currentLine)) {
-            onlyCodeString = removeComments(currentLine);
-            addToLogFile(onlyCodeString);
-            scanner = new Scanner(currentLine);
-            label = scanner.next();
-        } else{
-            return;
-        }
-        if(label.contains(":")) {
-            Error error = checkLabel(label);
-            if (error == null) {
-                instructionString = scanner.next();
-            } else{
-                logError(error);
+        try {
+            if (!checkForBlankLines(currentLine)) {
+                onlyCodeString = removeComments(currentLine);
+                if(!onlyCodeString.isEmpty()) {
+                    addToLogFile(onlyCodeString);
+                    scanner = new Scanner(onlyCodeString);
+                    label = scanner.next();
+                } else{
+                    return;
+                }
+            } else {
                 return;
             }
-        }else{
-            instructionString = label;
-        }
-
-        instruction = isValidInstruction(instructionString);
-
-        while(scanner.hasNext()){
-            operands += scanner.next();
-        }
-        //check for labels
-        if(instruction.getType() == null){
-            Error instructionError = new Error(ErrorType.INVALID_INSTRUCTION, instructionString);
-            logError(instructionError);
-            //Was not a valid instruction, so log it
-        } else{
-            Error error = instruction.areOperandsValid(operands);
-            if(error != null){
-                logError(error);
+            if (label.contains(":")) {
+                Error error = checkLabel(label);
+                if (error == null) {
+                    instructionString = scanner.next();
+                } else {
+                    logError(error);
+                    return;
+                }
+            } else {
+                instructionString = label;
             }
+
+            instruction = isValidInstruction(instructionString);
+
+            while (scanner.hasNext()) {
+                operands += scanner.next();
+            }
+            //check for labels
+            if (instruction.getType() == null) {
+                Error instructionError = new Error(ErrorType.INVALID_INSTRUCTION, instructionString);
+                logError(instructionError);
+                //Was not a valid instruction, so log it
+            } else {
+                Error error = instruction.areOperandsValid(operands);
+                if (error != null) {
+                    logError(error);
+                }
+            }
+        } catch(NoSuchElementException nse){
+            return;
         }
     }
 
@@ -122,9 +131,9 @@ public class FileReader {
     private Error checkLabel(String potentialLabel){
         //It is a label, else it is not
         if(potentialLabel.endsWith(":")) {
-            potentialLabel = potentialLabel.substring(0, potentialLabel.length() - 1);
+            potentialLabel = potentialLabel.substring(0, potentialLabel.length()-1);
             if (potentialLabel.length() <= 5 && potentialLabel.matches("[a-zA-Z]+")) {
-                mFoundLabels.add(potentialLabel);
+                LabelMatcher.addLabelThatIsAvailable(potentialLabel);
                 return null;
             } else {
                 return new Error(ErrorType.ILL_FORMED_LABEL, "");

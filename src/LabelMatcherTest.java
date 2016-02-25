@@ -14,45 +14,15 @@ public class LabelMatcherTest {
 
     @Test
     public void testLabelsAreFine() throws Exception {
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-
-        LabelMatcher.addLabelThatWasBranchedTo("LOOP");
-
-        mLabelErrors = LabelMatcher.getLabelErrors();
-        int sizeE = mLabelErrors.size();
-        int sizeA = 0;
-
-        assertEquals(sizeE, sizeA);
-    }
-
-    @Test
-    public void testBranchedToUnknownLabel() throws Exception {
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-        LabelMatcher.addLabelThatIsAvailable("LOOP");
-
-        LabelMatcher.addLabelThatWasBranchedTo("BEGIN");
-
-        mLabelErrors = LabelMatcher.getLabelErrors();
-        int sizeA = mLabelErrors.size();
-        int sizeE = 1;
-
-        assertEquals(sizeE, sizeA);
-    }
-
-    @Test
-    public void testLabelWasUnused() throws Exception {
         LabelMatcher.addLabelThatIsAvailable("END");
         LabelMatcher.addLabelThatIsAvailable("LOOP");
         LabelMatcher.addLabelThatIsAvailable("LOOP");
 
-        LabelMatcher.addLabelThatWasBranchedTo("LOOP");
+        LabelMatcher.addLabelThatWasBranchedTo("START");
 
         mLabelErrors = LabelMatcher.getLabelErrors();
-        int sizeE = mLabelErrors.size();
-        int sizeA = 1;
+        int sizeA = mLabelErrors.size();
+        int sizeE = 3;
 
         assertEquals(sizeE, sizeA);
     }

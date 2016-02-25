@@ -80,6 +80,7 @@ public class Driver {
         int LABEL_DOESNT_EXIST = 0;
 
         ArrayList<Error> mErrors = mLogInfo.getErrors();
+        mErrors.addAll(LabelMatcher.getLabelErrors());
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         dateString = dateFormat.format(date);

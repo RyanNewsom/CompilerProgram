@@ -22,7 +22,16 @@ public class LabelMatcher {
     }
 
     public static void addLabelThatIsAvailable(String label){
-        mPossibleLabels.add(label);
+        boolean alreadyContains = false;
+        for(int i = 0; i < mPossibleLabels.size(); i++){
+            String existingLabel = mPossibleLabels.get(i);
+            if(existingLabel.equalsIgnoreCase(label)){
+                alreadyContains = true;
+            }
+        }
+        if(!alreadyContains) {
+            mPossibleLabels.add(label);
+        }
     }
 
     public static ArrayList<Error> getLabelErrors(){
@@ -32,7 +41,7 @@ public class LabelMatcher {
             for(int j = 0; j < mLabelsBranchedTo.size(); j++){
                 //compare each possible label with each label that was branched to
                 String branched = mLabelsBranchedTo.get(j);
-                if(possible == branched){
+                if(possible.equals(branched)){
                     foundMatch = true;
                     break;
                 }
@@ -48,7 +57,7 @@ public class LabelMatcher {
             for(int j = 0; j < mPossibleLabels.size(); j++){
                 //compare each possible label with each label that was branched to
                 String possible = mPossibleLabels.get(j);
-                if(branched == possible){
+                if(branched.equals(possible)){
                     foundMatch = true;
                     break;
                 }
