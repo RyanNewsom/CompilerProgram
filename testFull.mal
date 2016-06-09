@@ -1,0 +1,19 @@
+        MOVEI   50, FORTYY              ;ILL_FORMED_OPERAN FORTYY
+        MOVEI   5,  FIVE
+        MOVEI   2,  TWO
+        MOVE    4, R1                   ;WRONG_OPERAND_TYPE 4
+        MOVE    RT,                     ;TOO_FEW_OPERANDS expected 2
+        BLTE     R1, FORTY, REG         ;INVALID_INSTRUCTION BLTE
+        BEQ     R1, FORTY, REG:         ;ILL_FORMED_LABEL REG:
+        MUL     FORTY, R2, R0, R5       ;TOO_MANY_OPERANDS expected 3
+        DIV     R2, TWO, R3
+        ADD     R2, R3, R3
+        SUB     R1, FORTY, R5
+        MULD     R5, R3, R6             ;INVALID_INSTRUCTION MULD
+        ADD     R0, R6, R0
+        BR      DECTA
+REGDSA:    MUL     R1, R2, R0           ;ILL_FORMED_LABEL
+DECT:   DIV     R0, FIVE, R6
+        SUB     R0, R6, R0
+        MOVE    R0, PAY
+        END

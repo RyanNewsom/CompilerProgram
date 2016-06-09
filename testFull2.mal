@@ -1,0 +1,20 @@
+; initialize
+;
+          MOVEIN     0, R0             ; INVALID_INSTRUCTION
+          MOVEI     1, R1             ; *for* loop index
+          MOVEI     12, R2            ; loop limit, 12 octal = 10
+
+; for loop: top test, definite loop
+  TOP:
+          BGT       R1,  CONT      ; TOO_FEW_OPERANDS
+          ADD       R0, R1, R0        ; total + index = total
+          ADD       Rd, Rs, 02, R3    ;TOO_MANY_OPERANDS
+          INC       R1, R@                ; TOO_MANY_OPERANDS
+  LOOPSS:                               ;LABEL_INVALID
+          BR        TOP
+  CONT:   MOVE      R0, 5         ; WRONG_OPERAND_TYPE
+
+
+
+; program complete
+          END
